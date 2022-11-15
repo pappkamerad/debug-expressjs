@@ -6,26 +6,40 @@ const programmingLanguagesRouter = require('./routes/programmingLanguages');
 
 app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
+    bodyParser.urlencoded({
+        extended: true,
+    })
 );
 
 app.get('/', (req, res) => {
-  res.json({'message': 'ok'});
-})
+    const html = getInfoHtml();
+    res.send(html);
+    //res.json({ message: 'ok' });
+});
 
 app.use('/programming-languages', programmingLanguagesRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  console.error(err.message, err.stack);
-  res.status(statusCode).json({'message': err.message});
-  
-  return;
+    const statusCode = err.statusCode || 500;
+    console.error(err.message, err.stack);
+    res.status(statusCode).json({ message: err.message });
+
+    return;
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Example app listening at http://localhost:${port}`);
 });
+
+function getInfoHtml() {
+    return `
+  <html>
+  <body>
+
+  <pre>JO MARTIN</pre>
+  
+  </body>
+  </html>
+  `;
+}
