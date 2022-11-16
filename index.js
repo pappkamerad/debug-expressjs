@@ -14,17 +14,17 @@ app.use(
 app.get('/', (req, res) => {
     let allReqHeaders = '';
     Object.entries(req.headers).forEach(([a, b]) => {
-      if (a.startsWith('x-') || a.startsWith('sec-')) {
-        return;
-      }
+        if (a.startsWith('x-') || a.startsWith('sec-') || a === 'forwarded' || a === 'host' || a === 'cookie') {
+            return;
+        }
 
-      allReqHeaders += `${a}: ${b.replaceAll('"', '\'')}\n`;
+        allReqHeaders += `${a}: ${b.replaceAll('"', "'")}\n`;
     });
 
     const title = `D: '${req.headers['cache-control']}' / '${req.headers['accept-encoding']}'`;
     const description = allReqHeaders;
     const url = 'https://debug-expressjs.vercel.app';
-      
+
     const html = `
 <html>
     <!-- HTML Meta Tags -->
@@ -44,8 +44,9 @@ app.get('/', (req, res) => {
     <meta name="twitter:description" content="${description}">
   
     <body>
-      <p>Debug Headers:</p>
-      <!-- <pre>${allReqHeaders}</pre> -->
+      <h1>Debug Headers:</h1>
+      <pre>${allReqHeaders}</pre>
+      <hr/>
       <pre>${JSON.stringify(req.headers, undefined, 2)}</pre>
     </body>
 
