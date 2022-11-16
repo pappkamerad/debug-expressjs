@@ -12,7 +12,18 @@ app.use(
 );
 
 app.get('/', (req, res) => {
-    const html = getInfoHtml();
+    const html = `
+<html>
+  <body>
+
+  <pre>JO MARTIN:</pre>
+  <code>${JSON.stringify(req.headers, undefined, 2)}</code>
+  
+  </body>
+</html>
+`;
+
+    //const html = getInfoHtml();
     res.send(html);
     //res.json({ message: 'ok' });
 });
@@ -31,15 +42,3 @@ app.use((err, req, res, next) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
-
-function getInfoHtml() {
-    return `
-  <html>
-  <body>
-
-  <pre>JO MARTIN</pre>
-  
-  </body>
-  </html>
-  `;
-}
