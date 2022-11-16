@@ -14,10 +14,14 @@ app.use(
 app.get('/', (req, res) => {
     let allReqHeaders = '';
     Object.entries(req.headers).forEach(([a, b]) => {
+      if (a.startsWith('x-') || a.startsWith('sec-')) {
+        return;
+      }
+
       allReqHeaders += `${a}: ${b.replaceAll('"', '\'')}\n`;
     });
 
-    const title = `D: "${req.headers['cache-control']}" / "${req.headers['accept-encoding']}"`;
+    const title = `D: '${req.headers['cache-control']}' / '${req.headers['accept-encoding']}'`;
     const description = allReqHeaders;
     const url = 'https://debug-expressjs.vercel.app';
       
