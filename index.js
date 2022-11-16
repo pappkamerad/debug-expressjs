@@ -14,7 +14,7 @@ app.use(
 app.get('/', (req, res) => {
     let allReqHeaders = '';
     Object.entries(req.headers).forEach(([a, b]) => {
-        if (a.startsWith('x-vercel') || a.startsWith('sec-') || a === 'forwarded' || a === 'host666' || a === 'user-agent') {
+        if (a.startsWith('x-') || a.startsWith('sec-') || a === 'forwarded' || a === 'host666' || a === 'user-agent666') {
             return;
         }
 
