@@ -12,14 +12,39 @@ app.use(
 );
 
 app.get('/', (req, res) => {
+    let allReqHeaders = '';
+    Object.entries(req.headers).forEach(([a, b]) => {
+      allReqHeaders += `${a}: ${b.replaceAll('"', '\'')}\n`;
+    });
+
+    const title = `D: "${req.headers['cache-control']}" / "${req.headers['accept-encoding']}"`;
+    const description = allReqHeaders;
+    const url = 'https://debug-expressjs.vercel.app';
+      
     const html = `
 <html>
-  <body>
-
-  <pre>JO MARTIN:</pre>
-  <code>${JSON.stringify(req.headers, undefined, 2)}</code>
+    <!-- HTML Meta Tags -->
+    <title>${title}</title>
+    <meta name="description" content="${description}">
   
-  </body>
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="${url}">
+    <meta property="og:title" content="${title}">
+    <meta property="og:description" content="${description}">
+  
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta property="twitter:domain" content="vercel.app">
+    <meta property="twitter:url" content="${url}">
+    <meta name="twitter:title" content="${title}">
+    <meta name="twitter:description" content="${description}">
+  
+    <body>
+      <p>Debug Headers:</p>
+      <!-- <pre>${allReqHeaders}</pre> -->
+      <pre>${JSON.stringify(req.headers, undefined, 2)}</pre>
+    </body>
+
 </html>
 `;
 
